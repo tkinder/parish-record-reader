@@ -218,3 +218,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local pipeline outputs
+outputs/
+
+# Git worktrees kept inside the repo (never commit a nested checkout)
+worktrees/
+
+# Windows download artifacts
+*:Zone.Identifier

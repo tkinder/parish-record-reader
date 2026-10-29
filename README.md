@@ -27,17 +27,40 @@ Families tracing Hispanic roots often hit a wall at old church records. Baptism,
 
 ## Roadmap
 
-- [ ] Image upload and preprocessing (crop, deskew, contrast)
-- [ ] Transcription pipeline
-- [ ] Translation and field extraction
+- [x] Image preprocessing (crop, deskew, contrast)
+- [ ] Image upload endpoint (code written; needs a live Modal run)
+- [x] Transcription pipeline (mock engine; real model pending)
+- [x] Translation and field extraction (mock data)
 - [ ] Accuracy benchmark (CER/WER) across models
-- [ ] Bilingual PDF generation
+- [x] Bilingual PDF generation
 - [ ] Simple web interface
 - [ ] Demo video
 
 ## Getting started
 
-Setup instructions will be added as the code lands.
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e ".[dev]"
+cp .env.example .env   # fill in provider keys as later phases need them
+```
+
+Day 1 runs fully offline with a mock transcription engine:
+
+```bash
+python -m parish_record_reader.cli samples/dummy_record.jpg
+# writes outputs/dummy_record_record.pdf (+ JSON sidecar + preprocessed PNG)
+pytest
+```
+
+To try the Modal-hosted endpoints (requires `modal setup` first):
+
+```bash
+modal serve -m parish_record_reader.app
+# POST /transcribe  multipart field `file` -> JSON (image + fields) for review
+# POST /render      edited JSON -> filled PDF
+# POST /process     multipart field `file` -> filled PDF (one-shot)
+```
 
 ## Author
 
